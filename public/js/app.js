@@ -1857,7 +1857,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     itemTitle: String,
-    itemContent: String,
+    itemDescription: String,
     itemPrice: Number
   }
 });
@@ -1876,6 +1876,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _BookableListItem_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BookableListItem.vue */ "./resources/js/bookables/BookableListItem.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -1903,6 +1905,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     BookableListItem: _BookableListItem_vue__WEBPACK_IMPORTED_MODULE_0__.default
@@ -1911,7 +1914,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       bookables: [{
         title: "T0",
-        content: "C0",
+        discription: "C0",
         price: 0
       }],
       loading: false,
@@ -1935,50 +1938,10 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     this.loading = true;
-    setTimeout(function () {
-      _this.bookables = [{
-        title: "T1",
-        content: "C1",
-        price: 100
-      }, {
-        title: "T2",
-        content: "C2",
-        price: 200
-      }, {
-        title: "T3",
-        content: "C3",
-        price: 300
-      }, {
-        title: "T4",
-        content: "C4",
-        price: 500
-      }, {
-        title: "T5",
-        content: "C5",
-        price: 500
-      }, {
-        title: "T6",
-        content: "C6",
-        price: 600
-      }, {
-        title: "T7",
-        content: "C7",
-        price: 700
-      }, {
-        title: "T8",
-        content: "C8",
-        price: 800
-      }, {
-        title: "T9",
-        content: "C9",
-        price: 900
-      }, {
-        title: "T10",
-        content: "C10",
-        price: 1000
-      }];
+    var request = axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/bookables").then(function (result) {
+      _this.bookables = result.data;
       _this.loading = false;
-    }, 2000);
+    });
   }
 });
 
@@ -37955,11 +37918,13 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
+  return _c("div", { staticClass: "card w-100" }, [
     _c("div", { staticClass: "card-body" }, [
       _c("h5", { staticClass: "card-title" }, [_vm._v(_vm._s(_vm.itemTitle))]),
       _vm._v(" "),
-      _c("p", { staticClass: "card-text" }, [_vm._v(_vm._s(_vm.itemContent))])
+      _c("p", { staticClass: "card-text" }, [
+        _vm._v(_vm._s(_vm.itemDescription))
+      ])
     ])
   ])
 }
@@ -38001,13 +37966,13 @@ var render = function() {
                     "div",
                     {
                       key: "row" + row + "column" + column,
-                      staticClass: "col"
+                      staticClass: "col d-flex align-items-stretch"
                     },
                     [
                       _c("BookableListItem", {
                         attrs: {
                           itemTitle: bookable.title,
-                          itemContent: bookable.content,
+                          itemDescription: bookable.description,
                           itemPrice: bookable.price
                         }
                       })
@@ -53511,6 +53476,18 @@ Vue.compile = compileToFunctions;
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
 /******/ 		};
 /******/ 	})();
 /******/ 	
