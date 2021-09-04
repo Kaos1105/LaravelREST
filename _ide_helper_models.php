@@ -45,16 +45,18 @@ namespace App\Models{
  * @property string $to
  * @property int $bookable_id
  * @property-read \App\Models\Bookable $bookable
+ * @method static \App\QueryBuilders\BookingBuilder|Booking betweenDates($from, $to)
  * @method static \Database\Factories\BookingFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Booking query()
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereBookableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereFrom($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereTo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUpdatedAt($value)
+ * @method static \App\QueryBuilders\BookingBuilder|Booking newModelQuery()
+ * @method static \App\QueryBuilders\BookingBuilder|Booking newQuery()
+ * @method static \App\QueryBuilders\BookingBuilder|Booking query()
+ * @method static \App\QueryBuilders\BookingBuilder|Booking whereBetweenDates($from, $to)
+ * @method static \App\QueryBuilders\BookingBuilder|Booking whereBookableId($value)
+ * @method static \App\QueryBuilders\BookingBuilder|Booking whereCreatedAt($value)
+ * @method static \App\QueryBuilders\BookingBuilder|Booking whereFrom($value)
+ * @method static \App\QueryBuilders\BookingBuilder|Booking whereId($value)
+ * @method static \App\QueryBuilders\BookingBuilder|Booking whereTo($value)
+ * @method static \App\QueryBuilders\BookingBuilder|Booking whereUpdatedAt($value)
  */
 	class Booking extends \Eloquent {}
 }
@@ -85,6 +87,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 	class User extends \Eloquent {}
 }
