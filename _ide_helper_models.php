@@ -21,6 +21,8 @@ namespace App\Models{
  * @property string $description
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Booking[] $bookings
  * @property-read int|null $bookings_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
+ * @property-read int|null $reviews_count
  * @method static \Database\Factories\BookableFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Bookable newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Bookable newQuery()
@@ -45,6 +47,7 @@ namespace App\Models{
  * @property string $to
  * @property int $bookable_id
  * @property-read \App\Models\Bookable $bookable
+ * @property-read \App\Models\Review|null $review
  * @method static \App\QueryBuilders\BookingBuilder|Booking betweenDates($from, $to)
  * @method static \Database\Factories\BookingFactory factory(...$parameters)
  * @method static \App\QueryBuilders\BookingBuilder|Booking newModelQuery()
@@ -59,6 +62,34 @@ namespace App\Models{
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereUpdatedAt($value)
  */
 	class Booking extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Review
+ *
+ * @property string $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $rating
+ * @property string $content
+ * @property int $bookable_id
+ * @property int|null $booking_id
+ * @property-read \App\Models\Bookable $bookable
+ * @property-read \App\Models\Booking|null $booking
+ * @method static \Database\Factories\ReviewFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereBookableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereBookingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereUpdatedAt($value)
+ */
+	class Review extends \Eloquent {}
 }
 
 namespace App\Models{

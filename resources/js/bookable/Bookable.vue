@@ -11,18 +11,27 @@
                     <div v-else>Loading...</div>
                 </div>
             </div>
+            <ReviewList
+                :bookableId="this.$route.params.id.toString()"
+            ></ReviewList>
         </div>
-        <div class="col-md-4 pb-4"><Availability></Availability></div>
+        <div class="col-md-4 pb-4">
+            <Availability
+                :bookableId="this.$route.params.id.toString()"
+            ></Availability>
+        </div>
     </div>
 </template>
 
 <script>
 import axios from "axios";
 import Availability from "./Availability.vue";
+import ReviewList from "./ReviewList.vue";
 
 export default {
     components: {
-        Availability
+        Availability,
+        ReviewList
     },
 
     data() {

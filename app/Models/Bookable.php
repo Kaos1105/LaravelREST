@@ -24,6 +24,14 @@ class Bookable extends Model
         return $this->hasMany(Booking::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public function availableFor($from, $to): bool
     {
         return $this->bookings()->whereBetweenDates($from, $to)->count() == 0;

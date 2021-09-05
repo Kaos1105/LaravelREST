@@ -4,22 +4,21 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BookableIndexResource extends JsonResource
+class BookableReviewIndexResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @mixin \App\Models\Review
      * @return array
-     * @mixin \App\Models\Bookable
      */
-
     public function toArray($request)
     {
-        return  [
-            'id' => $this->id,
-            'title' => $this->title,
-            'description' => $this->description
+        return [
+            'created_at' => $this->created_at,
+            'rating' => $this->rating,
+            'content' => $this->content,
         ];
     }
 }
