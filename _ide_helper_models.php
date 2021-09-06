@@ -46,6 +46,7 @@ namespace App\Models{
  * @property string $from
  * @property string $to
  * @property int $bookable_id
+ * @property string $review_key
  * @property-read \App\Models\Bookable $bookable
  * @property-read \App\Models\Review|null $review
  * @method static \App\QueryBuilders\BookingBuilder|Booking betweenDates($from, $to)
@@ -58,6 +59,7 @@ namespace App\Models{
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereCreatedAt($value)
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereFrom($value)
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereId($value)
+ * @method static \App\QueryBuilders\BookingBuilder|Booking whereReviewKey($value)
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereTo($value)
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereUpdatedAt($value)
  */

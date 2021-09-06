@@ -14,7 +14,7 @@
                     <div class="col-md-6">Dan</div>
                     <div class="col-md-6 d-flex justify-content-end">
                         <StarRating
-                            :rating="review.rating"
+                            :value="review.rating"
                             class="fa-lg"
                         ></StarRating>
                     </div>
@@ -34,7 +34,6 @@
 
 <script>
 import axios from "axios";
-import moment from "moment";
 import StarRating from "../shared/components/StarRating.vue";
 
 export default {
