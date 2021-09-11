@@ -2,12 +2,10 @@
     <div>
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
-            <span v-if="this.noAvailability" class="text-danger"
+            <span v-if="noAvailability" class="text-danger"
                 >(NOT AVAILABLE)</span
             >
-            <span v-if="this.hasAvailability" class="text-success"
-                >(AVAILABLE)</span
-            >
+            <span v-if="hasAvailability" class="text-success">(AVAILABLE)</span>
         </h6>
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -20,7 +18,7 @@
                     class="form-control form-control-sm"
                     placeholder="Start date"
                     @keyup.enter="check"
-                    :class="[{ 'is-invalid': this.errorFor('from') }]"
+                    :class="[{ 'is-invalid': errorFor('from') }]"
                 />
                 <ValidationError :errors="errorFor('from')" />
             </div>
