@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\BookableAvailability;
 use App\Http\Controllers\Api\BookableController;
+use App\Http\Controllers\Api\BookablePriceController;
 use App\Http\Controllers\Api\BookableReviewController;
 use App\Http\Controllers\Api\BookingByReviewController;
 use App\Http\Controllers\Api\ReviewController;
@@ -27,6 +28,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::apiResource('bookables', BookableController::class)->only(['index', 'show']);
 Route::get('bookables/{bookable}/availability', BookableAvailability::class)->name('bookables.availability.show');
 Route::get('bookables/{bookable}/reviews', BookableReviewController::class)->name('bookables.reviews.show');
+Route::get('bookables/{bookables}/price', BookablePriceController::class)->name('bookables.price.show');
+
 Route::get('booking-by-review/{reviewKey}', BookingByReviewController::class)->name('booking.by-review.show');
 
 Route::apiResource('reviews', ReviewController::class)->only(['show', 'store']);

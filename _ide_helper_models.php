@@ -19,6 +19,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $title
  * @property string $description
+ * @property int $price
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Booking[] $bookings
  * @property-read int|null $bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
@@ -30,6 +31,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Bookable whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bookable whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bookable whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bookable wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bookable whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bookable whereUpdatedAt($value)
  */

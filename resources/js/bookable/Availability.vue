@@ -2,10 +2,13 @@
     <div>
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
-            <span v-if="noAvailability" class="text-danger"
-                >(NOT AVAILABLE)</span
-            >
-            <span v-if="hasAvailability" class="text-success">(AVAILABLE)</span>
+            <transition name="fade" mode="out-in">
+                <span
+                    :class="hasAvailability ? 'text-success' : 'text-danger'"
+                    :key="availabilityText"
+                    >{{ availabilityText }}</span
+                >
+            </transition>
         </h6>
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -42,7 +45,10 @@
             @click="check"
             :disabled="loading"
         >
-            Check
+            <span v-if="!loading">Check</span>
+            <span v-else
+                ><i class="fas fa-spinner fa-spin"></i>Checking...</span
+            >
         </button>
     </div>
 </template>
@@ -58,8 +64,8 @@ export default {
     components: { ValidationError },
     data() {
         return {
-            from: "",
-            to: "",
+            from: this.$store.state.lastSearch.from || "",
+            to: this.$store.state.lastSearch.to || "",
             loading: false,
             status: 0
         };
@@ -71,34 +77,43 @@ export default {
 
     computed: {
         hasAvailability() {
-            return this.status === 200;
+            if (this.status === 200) return true;
+            else if (this.status === 404) return false;
+            else return null;
         },
 
-        noAvailability() {
-            return this.status === 404;
+        availabilityText() {
+            if (this.hasAvailability) return "(AVAILABLE)";
+            else if (!this.hasAvailability && this.hasAvailability !== null)
+                return "(NOT AVAILABLE)";
+            else return null;
         }
     },
 
     methods: {
-        check() {
+        async check() {
             this.loading = true;
             this.errors = null;
-            axios
-                .get(
-                    `/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
-                )
-                .then(response => {
-                    this.status = response.status;
-                })
-                .catch(error => {
-                    if (is422(error)) {
-                        this.errors = error.response.data.errors;
-                    }
-                    this.status = error.response.status;
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
+
+            this.$store.dispatch("setLastSearch", {
+                from: this.from,
+                to: this.to
+            });
+
+            try {
+                this.status = (
+                    await axios.get(
+                        `/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
+                    )
+                ).status;
+            } catch (error) {
+                if (is422(error)) {
+                    this.errors = error.response.data.errors;
+                }
+                this.status = error.response.status;
+            }
+            this.$emit("availability", this.hasAvailability);
+            this.loading = false;
         }
     }
 };
