@@ -32,15 +32,28 @@
                 <button
                     v-if="this.price"
                     class="btn btn-outline-secondary btn-block"
+                    :disabled="this.inBasketAlready"
+                    @click="this.addtoBasket"
                 >
                     Book now
                 </button>
             </transition>
+            <div v-if="this.inBasketAlready && this.price" class="mt-2">
+                <button
+                    class="btn btn-outline-secondary btn-block"
+                    @click="this.removeFromBasket"
+                >
+                    Remove from basket
+                </button>
+                <span class="mt-4 text-muted warning">
+                    This object already exists in basket!
+                </span>
+            </div>
         </div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import axios from "axios";
 import Availability from "./Availability.vue";
 import ReviewList from "./ReviewList.vue";
@@ -61,9 +74,17 @@ export default {
             price: 0
         };
     },
-    computed: mapState({
-        lastSearch: "lastSearch"
-    }),
+    computed: {
+        ...mapState({
+            lastSearch: "lastSearch"
+        }),
+        inBasketAlready() {
+            if (this.bookable === null) {
+                return false;
+            }
+            return this.$store.getters.inBasketAlready(this.bookable.id);
+        }
+    },
 
     created() {
         this.loading = true;
@@ -89,9 +110,25 @@ export default {
             } catch (err) {
                 this.price = null;
             }
+        },
+
+        addtoBasket() {
+            this.$store.dispatch("addToBasket", {
+                bookable: this.bookable,
+                price: this.price,
+                dates: this.lastSearch
+            });
+        },
+
+        removeFromBasket() {
+            this.$store.dispatch("removeFromBasket", this.bookable.id);
         }
     }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.warning {
+    font-size: 0.75rem;
+}
+</style>

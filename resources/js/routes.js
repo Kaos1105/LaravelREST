@@ -1,6 +1,7 @@
 import VueRouter from 'vue-router'
 import Bookables from './bookables/Bookables.vue'
 import Bookable from './bookable/Bookable.vue'
+import Basket from './basket/Basket.vue'
 import Review from './review/Review.vue'
 
 const routes = [
@@ -18,6 +19,11 @@ const routes = [
     path: '/review/:id',
     component: Review,
     name: 'review'
+  },
+  {
+    path: '/basket',
+    component: Basket,
+    name: 'basket'
   }
 ]
 
