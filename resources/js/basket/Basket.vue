@@ -9,6 +9,7 @@
                             type="text"
                             id="first_name"
                             class="form-control"
+                            v-model="customer.first_name"
                         />
                     </div>
                     <div class="col-md-6 form-group">
@@ -17,37 +18,68 @@
                             type="text"
                             id="last_name"
                             class="form-control"
+                            v-model="customer.last_name"
                         />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 form-group">
                         <label for="email">Email</label>
-                        <input type="text" id="email" class="form-control" />
+                        <input
+                            type="text"
+                            id="email"
+                            class="form-control"
+                            v-model="customer.email"
+                        />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label for="address">Address</label>
-                        <input type="text" id="address" class="form-control" />
+                        <input
+                            type="text"
+                            id="address"
+                            class="form-control"
+                            v-model="customer.address"
+                        />
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="city">City</label>
-                        <input type="text" id="city" class="form-control" />
+                        <input
+                            type="text"
+                            id="city"
+                            class="form-control"
+                            v-model="customer.city"
+                        />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label for="country">Country</label>
-                        <input type="text" id="country" class="form-control" />
+                        <input
+                            type="text"
+                            id="country"
+                            class="form-control"
+                            v-model="customer.country"
+                        />
                     </div>
                     <div class="col-md-4 form-group">
                         <label for="state">State</label>
-                        <input type="text" id="state" class="form-control" />
+                        <input
+                            type="text"
+                            id="state"
+                            class="form-control"
+                            v-model="customer.state"
+                        />
                     </div>
                     <div class="col-md-2 form-group">
                         <label for="zip">Zip</label>
-                        <input type="text" id="zip" class="form-control" />
+                        <input
+                            type="text"
+                            id="zip"
+                            class="form-control"
+                            v-model="customer.zip"
+                        />
                     </div>
                 </div>
                 <hr />
@@ -56,6 +88,7 @@
                         <button
                             class="btn btn-lg btn-primary btn-block"
                             type="submit"
+                            @click.prevent="book"
                         >
                             Book now!
                         </button>
@@ -117,9 +150,45 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
 import { mapGetters, mapState } from "vuex";
+import validationErrors from "../shared/mixins/validateError";
+import axios from "axios";
 export default {
+    mixins: [validationErrors],
+    data() {
+        return {
+            customer: {
+                first_name: "",
+                last_name: "",
+                email: "",
+                address: "",
+                city: "",
+                country: "",
+                state: "",
+                zip: ""
+            },
+            loading: false
+        };
+    },
+    methods: {
+        async book() {
+            this.loading = true;
+
+            try {
+                await axios.post(`/api/checkout`, {
+                    customer: this.customer,
+                    bookings: this.basket.map(basketItem => ({
+                        bookable_id: basketItem.bookable.id,
+                        from: basketItem.dates.from,
+                        to: basketItem.dates.to
+                    }))
+                });
+            } catch (err) {}
+
+            this.loading = false;
+        }
+    },
     computed: {
         ...mapGetters({
             itemsInBasket: "itemsInBasket"

@@ -40,14 +40,14 @@
             >
                 <div v-if="loading">Loading...</div>
                 <div v-else>
-                    <div v-if="alrealdyReviewed">
+                    <div v-if="alreadyReviewed">
                         <h3>
-                            You have alrealdy left a review for this booking
+                            You have already left a review for this booking
                         </h3>
                     </div>
                     <div v-else>
                         <div class="form-group">
-                            <label for="" class="text-muted"
+                            <label for="select star" class="text-muted"
                                 >Select the star rating (from 1 to 5)</label
                             ><StarRating
                                 v-model="review.rating"
@@ -83,7 +83,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
 import StarRating from "../shared/components/StarRating.vue";
 import axios from "axios";
 import { is404, is422 } from "../shared/utils/reponse";
@@ -99,7 +99,6 @@ export default {
         FatalError,
         ValidationError
     },
-
     data() {
         return {
             review: {
@@ -126,7 +125,7 @@ export default {
     },
 
     async created() {
-        //1. If review alrealdy exists
+        //1. If review already exists
         // this.loading = true;
         // axios
         //     .get(`/api/reviews/${this.$route.params.id}`)
@@ -157,7 +156,7 @@ export default {
             let resp = await axios.get(`/api/reviews/${this.review.id}`);
             this.exisingReview = resp.data.data;
         } catch (err) {
-            //2. If no fecth booking by a review key
+            //2. If no fetch booking by a review key
             if (is404(err)) {
                 try {
                     let resp = await axios.get(
@@ -175,7 +174,7 @@ export default {
     },
 
     computed: {
-        alrealdyReviewed() {
+        alreadyReviewed() {
             return this.hasReview || !this.hasBooking;
         },
         hasReview() {
@@ -185,7 +184,7 @@ export default {
             return !!this.booking.booking_id;
         },
         showBooking() {
-            return this.loading || !this.alrealdyReviewed;
+            return this.loading || !this.alreadyReviewed;
         }
     },
 
@@ -205,7 +204,7 @@ export default {
             } catch (err) {
                 if (is422(err)) {
                     const errors = err.response.data.errors;
-                    if (errors["content"] && _.size(errors) == 1) {
+                    if (errors["content"] && _.size(errors) === 1) {
                         this.errors = errors;
                     } else {
                         this.error = err;

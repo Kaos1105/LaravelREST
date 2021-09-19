@@ -53,7 +53,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
 import axios from "axios";
 import { is422 } from "../shared/utils/reponse";
 import ValidationError from "../shared/components/ValidationError.vue";

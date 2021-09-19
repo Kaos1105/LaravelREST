@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\QueryBuilders\BookingBuilder;
+use Arr;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 class Bookable extends Model
 {
@@ -35,5 +37,18 @@ class Bookable extends Model
     public function availableFor($from, $to): bool
     {
         return $this->bookings()->whereBetweenDates($from, $to)->count() == 0;
+    }
+
+    public function priceFor(String $from, String $to): array
+    {
+        $days = (new Carbon($from))->diffInDays(new Carbon($to)) + 1;
+        $price = $days * $this->price;
+
+        return [
+            'total' => $price,
+            'breakdown' => [
+                $this->price => $days
+            ]
+        ];
     }
 }

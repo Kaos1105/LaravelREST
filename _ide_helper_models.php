@@ -12,6 +12,39 @@
 
 namespace App\Models{
 /**
+ * App\Models\Address
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $email
+ * @property string $address
+ * @property string $city
+ * @property string $country
+ * @property string $state
+ * @property string $zip
+ * @method static \Illuminate\Database\Eloquent\Builder|Address newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Address newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Address query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Address whereZip($value)
+ */
+	class Address extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Bookable
  *
  * @property int $id
@@ -49,6 +82,9 @@ namespace App\Models{
  * @property string $to
  * @property int $bookable_id
  * @property string $review_key
+ * @property int|null $price
+ * @property int|null $address_id
+ * @property-read \App\Models\Address|null $address
  * @property-read \App\Models\Bookable $bookable
  * @property-read \App\Models\Review|null $review
  * @method static \App\QueryBuilders\BookingBuilder|Booking betweenDates($from, $to)
@@ -56,11 +92,13 @@ namespace App\Models{
  * @method static \App\QueryBuilders\BookingBuilder|Booking newModelQuery()
  * @method static \App\QueryBuilders\BookingBuilder|Booking newQuery()
  * @method static \App\QueryBuilders\BookingBuilder|Booking query()
+ * @method static \App\QueryBuilders\BookingBuilder|Booking whereAddressId($value)
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereBetweenDates($from, $to)
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereBookableId($value)
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereCreatedAt($value)
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereFrom($value)
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereId($value)
+ * @method static \App\QueryBuilders\BookingBuilder|Booking wherePrice($value)
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereReviewKey($value)
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereTo($value)
  * @method static \App\QueryBuilders\BookingBuilder|Booking whereUpdatedAt($value)
