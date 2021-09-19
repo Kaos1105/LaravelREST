@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
+/**
+ * @mixin IdeHelperBookable
+ */
 class Bookable extends Model
 {
     use HasFactory;

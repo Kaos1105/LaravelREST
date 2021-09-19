@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-8" v-if="itemsInBasket">
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label for="first_name">First name</label>
@@ -95,6 +95,11 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-8" v-else>
+                <div class="jumbotron jumbotron-fluid text-center">
+                    <h1>Empty</h1>
+                </div>
+            </div>
             <div class="col-md-4">
                 <div class="d-flex justify-content-between">
                     <h6
@@ -143,8 +148,9 @@
                             >
                                 <i class="fas fa-trash-alt"></i>
                             </button>
-                        </div></div
-                ></transition-group>
+                        </div>
+                    </div>
+                </transition-group>
             </div>
         </div>
     </div>
@@ -154,6 +160,7 @@
 import { mapGetters, mapState } from "vuex";
 import validationErrors from "../shared/mixins/validateError";
 import axios from "axios";
+
 export default {
     mixins: [validationErrors],
     data() {
@@ -184,9 +191,10 @@ export default {
                         to: basketItem.dates.to
                     }))
                 });
-            } catch (err) {}
-
-            this.loading = false;
+                await this.$store.dispatch("clearBasket");
+            } catch (err) {
+                this.loading = false;
+            }
         }
     },
     computed: {
@@ -204,6 +212,7 @@ export default {
 h6.badge {
     font-size: 100%;
 }
+
 a {
     color: cornflowerblue;
 }

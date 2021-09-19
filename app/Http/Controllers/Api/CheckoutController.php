@@ -13,7 +13,7 @@ class CheckoutController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Support\Collection
      */
     public function __invoke(Request $request)
@@ -46,7 +46,7 @@ class CheckoutController extends Controller
         $bookingsData = $data['bookings'];
         $addressData = $data['customer'];
 
-        $bookings = collect($bookingsData)->map(function ($bookingsData) use ($addressData) {
+        return collect($bookingsData)->map(function ($bookingsData) use ($addressData) {
             $bookable = Bookable::findOrFail($bookingsData['bookable_id']);
             $booking = new Booking();
             $booking->from = $bookingsData['from'];
@@ -59,7 +59,5 @@ class CheckoutController extends Controller
             $booking->save();
             return $booking;
         });
-
-        return $bookings;
     }
 }

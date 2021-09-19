@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use App\QueryBuilders\BookingBuilder;
 use Illuminate\Support\Str;
 
+/**
+ * @mixin IdeHelperBooking
+ */
 class Booking extends Model
 {
     use HasFactory;

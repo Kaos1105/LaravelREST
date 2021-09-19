@@ -2053,6 +2053,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2097,22 +2103,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 4:
-                _context.next = 8;
-                break;
+                _context.next = 6;
+                return _this.$store.dispatch("clearBasket");
 
               case 6:
-                _context.prev = 6;
-                _context.t0 = _context["catch"](1);
+                _context.next = 11;
+                break;
 
               case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](1);
                 _this.loading = false;
 
-              case 9:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 6]]);
+        }, _callee, null, [[1, 8]]);
       }))();
     }
   },
@@ -3241,18 +3249,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-var _excluded = ["state", "commit"],
-    _excluded2 = ["state", "commit"];
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
     lastSearch: {
-      from: '',
-      to: ''
+      from: "",
+      to: ""
     },
     basket: {
       items: []
@@ -3276,37 +3277,41 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
   },
   actions: {
     setLastSearch: function setLastSearch(context, payload) {
-      context.commit('setLastSearch', payload);
-      localStorage.setItem('lastSearch', JSON.stringify(payload));
+      context.commit("setLastSearch", payload);
+      localStorage.setItem("lastSearch", JSON.stringify(payload));
     },
     loadStoredLastSearch: function loadStoredLastSearch(context) {
-      var lastSearch = localStorage.getItem('lastSearch');
+      var lastSearch = localStorage.getItem("lastSearch");
 
       if (lastSearch) {
-        context.commit('setLastSearch', JSON.parse(lastSearch));
+        context.commit("setLastSearch", JSON.parse(lastSearch));
       }
 
-      var basket = localStorage.getItem('basket');
+      var basket = localStorage.getItem("basket");
 
       if (basket) {
-        context.commit('setBasket', JSON.parse(basket));
+        context.commit("setBasket", JSON.parse(basket));
       }
     },
     addToBasket: function addToBasket(context, payload) {
       var state = context.state,
-          commit = context.commit,
-          rest = _objectWithoutProperties(context, _excluded);
-
-      commit('addToBasket', payload);
-      localStorage.setItem('basket', JSON.stringify(state.basket));
+          commit = context.commit;
+      commit("addToBasket", payload);
+      localStorage.setItem("basket", JSON.stringify(state.basket));
     },
     removeFromBasket: function removeFromBasket(context, payload) {
       var state = context.state,
-          commit = context.commit,
-          rest = _objectWithoutProperties(context, _excluded2);
-
-      commit('removeFromBasket', payload);
-      localStorage.setItem('basket', JSON.stringify(state.basket));
+          commit = context.commit;
+      commit("removeFromBasket", payload);
+      localStorage.setItem("basket", JSON.stringify(state.basket));
+    },
+    clearBasket: function clearBasket(context, payload) {
+      var state = context.state,
+          commit = context.commit;
+      commit("setBasket", {
+        items: []
+      });
+      localStorage.setItem("basket", JSON.stringify(state.basket));
     }
   },
   getters: {
@@ -7783,7 +7788,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nh6.badge[data-v-9d55657e] {\r\n    font-size: 100%;\n}\na[data-v-9d55657e] {\r\n    color: cornflowerblue;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh6.badge[data-v-9d55657e] {\n    font-size: 100%;\n}\na[data-v-9d55657e] {\n    color: cornflowerblue;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -62718,250 +62723,254 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6 form-group" }, [
-            _c("label", { attrs: { for: "first_name" } }, [
-              _vm._v("First name")
+      _vm.itemsInBasket
+        ? _c("div", { staticClass: "col-md-8" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6 form-group" }, [
+                _c("label", { attrs: { for: "first_name" } }, [
+                  _vm._v("First name")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.customer.first_name,
+                      expression: "customer.first_name"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "first_name" },
+                  domProps: { value: _vm.customer.first_name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.customer, "first_name", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6 form-group" }, [
+                _c("label", { attrs: { for: "last_name" } }, [
+                  _vm._v("Last name")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.customer.last_name,
+                      expression: "customer.last_name"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "last_name" },
+                  domProps: { value: _vm.customer.last_name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.customer, "last_name", $event.target.value)
+                    }
+                  }
+                })
+              ])
             ]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.customer.first_name,
-                  expression: "customer.first_name"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", id: "first_name" },
-              domProps: { value: _vm.customer.first_name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12 form-group" }, [
+                _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.customer.email,
+                      expression: "customer.email"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "email" },
+                  domProps: { value: _vm.customer.email },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.customer, "email", $event.target.value)
+                    }
                   }
-                  _vm.$set(_vm.customer, "first_name", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6 form-group" }, [
-            _c("label", { attrs: { for: "last_name" } }, [_vm._v("Last name")]),
+                })
+              ])
+            ]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.customer.last_name,
-                  expression: "customer.last_name"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", id: "last_name" },
-              domProps: { value: _vm.customer.last_name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6 form-group" }, [
+                _c("label", { attrs: { for: "address" } }, [_vm._v("Address")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.customer.address,
+                      expression: "customer.address"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "address" },
+                  domProps: { value: _vm.customer.address },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.customer, "address", $event.target.value)
+                    }
                   }
-                  _vm.$set(_vm.customer, "last_name", $event.target.value)
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12 form-group" }, [
-            _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6 form-group" }, [
+                _c("label", { attrs: { for: "city" } }, [_vm._v("City")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.customer.city,
+                      expression: "customer.city"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "city" },
+                  domProps: { value: _vm.customer.city },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.customer, "city", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.customer.email,
-                  expression: "customer.email"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", id: "email" },
-              domProps: { value: _vm.customer.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6 form-group" }, [
+                _c("label", { attrs: { for: "country" } }, [_vm._v("Country")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.customer.country,
+                      expression: "customer.country"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "country" },
+                  domProps: { value: _vm.customer.country },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.customer, "country", $event.target.value)
+                    }
                   }
-                  _vm.$set(_vm.customer, "email", $event.target.value)
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6 form-group" }, [
-            _c("label", { attrs: { for: "address" } }, [_vm._v("Address")]),
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4 form-group" }, [
+                _c("label", { attrs: { for: "state" } }, [_vm._v("State")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.customer.state,
+                      expression: "customer.state"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "state" },
+                  domProps: { value: _vm.customer.state },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.customer, "state", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-2 form-group" }, [
+                _c("label", { attrs: { for: "zip" } }, [_vm._v("Zip")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.customer.zip,
+                      expression: "customer.zip"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "zip" },
+                  domProps: { value: _vm.customer.zip },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.customer, "zip", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.customer.address,
-                  expression: "customer.address"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", id: "address" },
-              domProps: { value: _vm.customer.address },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.customer, "address", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6 form-group" }, [
-            _c("label", { attrs: { for: "city" } }, [_vm._v("City")]),
+            _c("hr"),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.customer.city,
-                  expression: "customer.city"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", id: "city" },
-              domProps: { value: _vm.customer.city },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.customer, "city", $event.target.value)
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6 form-group" }, [
-            _c("label", { attrs: { for: "country" } }, [_vm._v("Country")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.customer.country,
-                  expression: "customer.country"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", id: "country" },
-              domProps: { value: _vm.customer.country },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.customer, "country", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4 form-group" }, [
-            _c("label", { attrs: { for: "state" } }, [_vm._v("State")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.customer.state,
-                  expression: "customer.state"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", id: "state" },
-              domProps: { value: _vm.customer.state },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.customer, "state", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-2 form-group" }, [
-            _c("label", { attrs: { for: "zip" } }, [_vm._v("Zip")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.customer.zip,
-                  expression: "customer.zip"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", id: "zip" },
-              domProps: { value: _vm.customer.zip },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.customer, "zip", $event.target.value)
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12 form-group" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-lg btn-primary btn-block",
-                attrs: { type: "submit" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.book.apply(null, arguments)
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n                        Book now!\n                    "
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12 form-group" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-lg btn-primary btn-block",
+                    attrs: { type: "submit" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.book.apply(null, arguments)
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Book now!\n                    "
+                    )
+                  ]
                 )
-              ]
-            )
+              ])
+            ])
           ])
-        ])
-      ]),
+        : _c("div", { staticClass: "col-md-8" }, [_vm._m(0)]),
       _vm._v(" "),
       _c(
         "div",
@@ -63059,7 +63068,16 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "jumbotron jumbotron-fluid text-center" }, [
+      _c("h1", [_vm._v("Empty")])
+    ])
+  }
+]
 render._withStripped = true
 
 
