@@ -1,6 +1,9 @@
 <template>
     <div>
-        <div class="row">
+        <SuccessOperation v-if="success"
+            >Congratulations on your purchase
+        </SuccessOperation>
+        <div class="row" v-else>
             <div class="col-md-8" v-if="itemsInBasket">
                 <div class="row">
                     <div class="col-md-6 form-group">
@@ -10,6 +13,16 @@
                             id="first_name"
                             class="form-control"
                             v-model="customer.first_name"
+                            :class="[
+                                {
+                                    'is-invalid': errorFor(
+                                        'customer.first_name'
+                                    )
+                                }
+                            ]"
+                        />
+                        <ValidationError
+                            :errors="errorFor('customer.first_name')"
                         />
                     </div>
                     <div class="col-md-6 form-group">
@@ -19,6 +32,14 @@
                             id="last_name"
                             class="form-control"
                             v-model="customer.last_name"
+                            :class="[
+                                {
+                                    'is-invalid': errorFor('customer.last_name')
+                                }
+                            ]"
+                        />
+                        <ValidationError
+                            :errors="errorFor('customer.last_name')"
                         />
                     </div>
                 </div>
@@ -30,7 +51,13 @@
                             id="email"
                             class="form-control"
                             v-model="customer.email"
+                            :class="[
+                                {
+                                    'is-invalid': errorFor('customer.email')
+                                }
+                            ]"
                         />
+                        <ValidationError :errors="errorFor('customer.email')" />
                     </div>
                 </div>
                 <div class="row">
@@ -41,6 +68,14 @@
                             id="address"
                             class="form-control"
                             v-model="customer.address"
+                            :class="[
+                                {
+                                    'is-invalid': errorFor('customer.address')
+                                }
+                            ]"
+                        />
+                        <ValidationError
+                            :errors="errorFor('customer.address')"
                         />
                     </div>
                     <div class="col-md-6 form-group">
@@ -50,7 +85,13 @@
                             id="city"
                             class="form-control"
                             v-model="customer.city"
+                            :class="[
+                                {
+                                    'is-invalid': errorFor('customer.city')
+                                }
+                            ]"
                         />
+                        <ValidationError :errors="errorFor('customer.city')" />
                     </div>
                 </div>
                 <div class="row">
@@ -61,6 +102,14 @@
                             id="country"
                             class="form-control"
                             v-model="customer.country"
+                            :class="[
+                                {
+                                    'is-invalid': errorFor('customer.country')
+                                }
+                            ]"
+                        />
+                        <ValidationError
+                            :errors="errorFor('customer.country')"
                         />
                     </div>
                     <div class="col-md-4 form-group">
@@ -70,7 +119,13 @@
                             id="state"
                             class="form-control"
                             v-model="customer.state"
+                            :class="[
+                                {
+                                    'is-invalid': errorFor('customer.state')
+                                }
+                            ]"
                         />
+                        <ValidationError :errors="errorFor('customer.state')" />
                     </div>
                     <div class="col-md-2 form-group">
                         <label for="zip">Zip</label>
@@ -79,7 +134,13 @@
                             id="zip"
                             class="form-control"
                             v-model="customer.zip"
+                            :class="[
+                                {
+                                    'is-invalid': errorFor('customer.zip')
+                                }
+                            ]"
                         />
+                        <ValidationError :errors="errorFor('customer.zip')" />
                     </div>
                 </div>
                 <hr />
@@ -145,6 +206,7 @@
                                         item.bookable.id
                                     )
                                 "
+                                :disabled="loading"
                             >
                                 <i class="fas fa-trash-alt"></i>
                             </button>
@@ -160,9 +222,13 @@
 import { mapGetters, mapState } from "vuex";
 import validationErrors from "../shared/mixins/validateError";
 import axios from "axios";
+import ValidationError from "../shared/components/ValidationError";
 
 export default {
     mixins: [validationErrors],
+    components: {
+        ValidationError
+    },
     data() {
         return {
             customer: {
@@ -175,13 +241,15 @@ export default {
                 state: "",
                 zip: ""
             },
-            loading: false
+            loading: false,
+            bookingAttempted: false
         };
     },
     methods: {
         async book() {
             this.loading = true;
-
+            this.errors = null;
+            this.bookingAttempted = false;
             try {
                 await axios.post(`/api/checkout`, {
                     customer: this.customer,
@@ -192,9 +260,11 @@ export default {
                     }))
                 });
                 await this.$store.dispatch("clearBasket");
-            } catch (err) {
-                this.loading = false;
+            } catch (error) {
+                this.errors = error.response && error.response.data.errors;
             }
+            this.loading = false;
+            this.bookingAttempted = true;
         }
     },
     computed: {
@@ -203,7 +273,14 @@ export default {
         }),
         ...mapState({
             basket: state => state.basket.items
-        })
+        }),
+        success() {
+            return (
+                !this.loading &&
+                this.itemsInBasket === 0 &&
+                this.bookingAttempted
+            );
+        }
     }
 };
 </script>
