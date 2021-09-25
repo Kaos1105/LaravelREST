@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookableAvailability;
 use App\Http\Controllers\Api\BookableController;
 use App\Http\Controllers\Api\BookablePriceController;
@@ -26,13 +27,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('bookables', BookableController::class)->only(['index', 'show']);
-Route::get('bookables/{bookable}/availability', BookableAvailability::class)->name('bookables.availability.show');
-Route::get('bookables/{bookable}/reviews', BookableReviewController::class)->name('bookables.reviews.show');
-Route::get('bookables/{bookables}/price', BookablePriceController::class)->name('bookables.price.show');
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::apiResource('bookables', BookableController::class)->only(['index', 'show']);
+    Route::get('bookables/{bookable}/availability', BookableAvailability::class)->name('bookables.availability.show');
+    Route::get('bookables/{bookable}/reviews', BookableReviewController::class)->name('bookables.reviews.show');
+    Route::get('bookables/{bookables}/price', BookablePriceController::class)->name('bookables.price.show');
 
-Route::get('booking-by-review/{reviewKey}', BookingByReviewController::class)->name('booking.by-review.show');
+    Route::get('booking-by-review/{reviewKey}', BookingByReviewController::class)->name('booking.by-review.show');
 
-Route::apiResource('reviews', ReviewController::class)->only(['show', 'store']);
+    Route::apiResource('reviews', ReviewController::class)->only(['show', 'store']);
 
-Route::post('checkout', CheckoutController::class)->name('checkout');
+    Route::post('checkout', CheckoutController::class)->name('checkout');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::post('register', [AuthController::class, 'register'])->name('register');
